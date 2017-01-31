@@ -78,12 +78,12 @@ public class DBHelper extends SQLiteOpenHelper {
     public boolean updateContact (Integer id, String name, String phone, String email, String street,String place) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put("name", name);
-        contentValues.put("phone", phone);
-        contentValues.put("email", email);
-        contentValues.put("street", street);
-        contentValues.put("place", place);
-        db.update("contacts", contentValues, "id = ? ", new String[] { Integer.toString(id) } );
+        contentValues.put(CONTACTS_COLUMN_NAME, name);
+        contentValues.put(CONTACTS_COLUMN_PHONE, phone);
+        contentValues.put(CONTACTS_COLUMN_EMAIL, email);
+        contentValues.put(CONTACTS_COLUMN_STREET, street);
+        contentValues.put(CONTACTS_COLUMN_PLACE, place);
+        db.update(CONTACTS_TABLE_NAME, contentValues, CONTACTS_COLUMN_ID + " = ? ", new String[] { Integer.toString(id) } );
         return true;
     }
 
