@@ -50,7 +50,7 @@ public class DisplayContact extends AppCompatActivity {
                 String phon = rs.getString(rs.getColumnIndex(DBHelper.CONTACTS_COLUMN_PHONE));
                 String emai = rs.getString(rs.getColumnIndex(DBHelper.CONTACTS_COLUMN_EMAIL));
                 String stree = rs.getString(rs.getColumnIndex(DBHelper.CONTACTS_COLUMN_STREET));
-                String plac = rs.getString(rs.getColumnIndex(DBHelper.CONTACTS_COLUMN_CITY));
+                String plac = rs.getString(rs.getColumnIndex(DBHelper.CONTACTS_COLUMN_PLACE));
 
                 if (!rs.isClosed())  {
                     rs.close();

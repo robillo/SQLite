@@ -2,6 +2,7 @@ package com.appbusters.robinkamboj.sqlite;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.DatabaseErrorHandler;
 import android.database.DatabaseUtils;
@@ -22,7 +23,6 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String CONTACTS_COLUMN_ID = "id";
     public static final String CONTACTS_COLUMN_NAME = "name";
     public static final String CONTACTS_COLUMN_STREET = "street";
-    public static final String CONTACTS_COLUMN_CITY = "city";
     public static final String CONTACTS_COLUMN_PHONE = "phone";
     public static final String CONTACTS_COLUMN_EMAIL = "email";
     public static final String CONTACTS_COLUMN_PLACE = "place";
@@ -53,4 +53,67 @@ public class DBHelper extends SQLiteOpenHelper {
 
     //CRUD METHODS: CREATE READ UPDATE DELETE
 
+    //CREATE
+    public Boolean insertContact(String name, String phone, String email, String street, String place){
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("name ", name);
+        contentValues.put("phone ", phone);
+        contentValues.put("email ", email);
+        contentValues.put("street ", street);
+        contentValues.put("place ", place);
+        sqLiteDatabase.insert("contacts", null, contentValues);
+        return true;
+    }
+
+    //READ
+    public Cursor getData(int id){
+        SQLiteDatabase sqLiteDatabase = getReadableDatabase();
+        Cursor cursor = sqLiteDatabase.rawQuery("SELECT * FROM " + CONTACTS_TABLE_NAME +
+        " WHERE " + CONTACTS_COLUMN_ID + "=" + id + " ", null);
+        return cursor;
+    }
+
+    //UPDATE
+    public boolean updateContact (Integer id, String name, String phone, String email, String street,String place) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("name", name);
+        contentValues.put("phone", phone);
+        contentValues.put("email", email);
+        contentValues.put("street", street);
+        contentValues.put("place", place);
+        db.update("contacts", contentValues, "id = ? ", new String[] { Integer.toString(id) } );
+        return true;
+    }
+
+    //DELETE
+    public Integer deleteContact (Integer id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        return db.delete(CONTACTS_TABLE_NAME,
+                CONTACTS_COLUMN_ID + "= ? ",
+                new String[] { Integer.toString(id) });
+    }
+
+
+    public ArrayList<String> getAllCotacts() {
+        ArrayList<String> array_list = new ArrayList<>();
+
+        //hp = new HashMap();
+        SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
+        Cursor res =  sqLiteDatabase.rawQuery( "SELECT * FROM " + CONTACTS_TABLE_NAME + " ", null );
+        res.moveToFirst();
+
+        while(res.isAfterLast() == false){
+            array_list.add(res.getString(res.getColumnIndex(CONTACTS_COLUMN_NAME)));
+            res.moveToNext();
+        }
+        return array_list;
+    }
+
+    public int numberOfRows(){
+        SQLiteDatabase sqLiteDatabase = getReadableDatabase();
+        int numRows = (int) DatabaseUtils.queryNumEntries(sqLiteDatabase, CONTACTS_TABLE_NAME);
+        return numRows;
+    };
 }
