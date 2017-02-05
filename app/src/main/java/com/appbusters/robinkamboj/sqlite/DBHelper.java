@@ -57,12 +57,12 @@ public class DBHelper extends SQLiteOpenHelper {
     public Boolean insertContact(String name, String phone, String email, String street, String place){
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put("name ", name);
-        contentValues.put("phone ", phone);
-        contentValues.put("email ", email);
-        contentValues.put("street ", street);
-        contentValues.put("place ", place);
-        sqLiteDatabase.insert("contacts", null, contentValues);
+        contentValues.put(CONTACTS_COLUMN_NAME + " ", name);
+        contentValues.put(CONTACTS_COLUMN_PHONE + " ", phone);
+        contentValues.put(CONTACTS_COLUMN_EMAIL + " ", email);
+        contentValues.put(CONTACTS_COLUMN_STREET + " ", street);
+        contentValues.put(CONTACTS_COLUMN_PLACE + " ", place);
+        sqLiteDatabase.insert(CONTACTS_TABLE_NAME, null, contentValues);
         return true;
     }
 
@@ -76,14 +76,14 @@ public class DBHelper extends SQLiteOpenHelper {
 
     //UPDATE
     public boolean updateContact (Integer id, String name, String phone, String email, String street,String place) {
-        SQLiteDatabase db = this.getWritableDatabase();
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(CONTACTS_COLUMN_NAME, name);
         contentValues.put(CONTACTS_COLUMN_PHONE, phone);
         contentValues.put(CONTACTS_COLUMN_EMAIL, email);
         contentValues.put(CONTACTS_COLUMN_STREET, street);
         contentValues.put(CONTACTS_COLUMN_PLACE, place);
-        db.update(CONTACTS_TABLE_NAME, contentValues, CONTACTS_COLUMN_ID + " = ? ", new String[] { Integer.toString(id) } );
+        sqLiteDatabase.update(CONTACTS_TABLE_NAME, contentValues, CONTACTS_COLUMN_ID + " = ? ", new String[] { Integer.toString(id) } );
         return true;
     }
 
